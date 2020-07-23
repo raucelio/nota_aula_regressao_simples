@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 1 Introdução | Regressão Linear</title>
+  <meta name="description" content="Este trbalho tem como apresentar exemplos análises de regressão linea utilizando o R." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 1 Introdução | Regressão Linear" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Este trbalho tem como apresentar exemplos análises de regressão linea utilizando o R." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 1 Introdução | Regressão Linear" />
+  
+  <meta name="twitter:description" content="Este trbalho tem como apresentar exemplos análises de regressão linea utilizando o R." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="função-lm.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Regressão: notas de aula I</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Objetivo</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introdução</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#ajuste-do-modelo"><i class="fa fa-check"></i><b>1.1</b> Ajuste do modelo</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="intro.html"><a href="intro.html#peso-e-altura-de-mulheres"><i class="fa fa-check"></i><b>1.1.1</b> Peso e Altura de Mulheres</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#inferência-em-regressão-linear"><i class="fa fa-check"></i><b>1.2</b> Inferência em regressão linear</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#decomposião-da-soma-dos-quadrados-total"><i class="fa fa-check"></i><b>1.2.1</b> Decomposião da Soma dos Quadrados Total</a></li>
+<li class="chapter" data-level="1.2.2" data-path="intro.html"><a href="intro.html#teste-t-para-os-parâmetros"><i class="fa fa-check"></i><b>1.2.2</b> Teste t para os parâmetros</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="função-lm.html"><a href="função-lm.html"><i class="fa fa-check"></i><b>2</b> Função lm()</a></li>
+<li class="chapter" data-level="3" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html"><i class="fa fa-check"></i><b>3</b> Regressão Linear Simples no R</a><ul>
+<li class="chapter" data-level="3.1" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#exemplo-1"><i class="fa fa-check"></i><b>3.1</b> Exemplo 1</a></li>
+<li class="chapter" data-level="3.2" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#exemplo-2"><i class="fa fa-check"></i><b>3.2</b> Exemplo 2</a></li>
+<li class="chapter" data-level="3.3" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#exemplo-3"><i class="fa fa-check"></i><b>3.3</b> Exemplo 3</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#implementação-no-r"><i class="fa fa-check"></i><b>3.3.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="3.3.2" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#visualizaçao-dos-dados"><i class="fa fa-check"></i><b>3.3.2</b> Visualizaçao dos dados</a></li>
+<li class="chapter" data-level="3.3.3" data-path="intro.html"><a href="intro.html#ajuste-do-modelo"><i class="fa fa-check"></i><b>3.3.3</b> Ajuste do Modelo</a></li>
+<li class="chapter" data-level="3.3.4" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#qualidade-do-ajuste"><i class="fa fa-check"></i><b>3.3.4</b> Qualidade do Ajuste</a></li>
+<li class="chapter" data-level="3.3.5" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#pressupostos-do-modelo"><i class="fa fa-check"></i><b>3.3.5</b> Pressupostos do Modelo</a></li>
+<li class="chapter" data-level="3.3.6" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#teste-de-bartlett"><i class="fa fa-check"></i><b>3.3.6</b> Teste de Bartlett</a></li>
+<li class="chapter" data-level="3.3.7" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#teste-de-shapiro-wilk"><i class="fa fa-check"></i><b>3.3.7</b> Teste de Shapiro-Wilk</a></li>
+<li class="chapter" data-level="3.3.8" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#interpretação-do-modelo"><i class="fa fa-check"></i><b>3.3.8</b> Interpretação do Modelo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="exercícios.html"><a href="exercícios.html"><i class="fa fa-check"></i><b>4</b> Exercícios</a></li>
+<li class="chapter" data-level="5" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html"><i class="fa fa-check"></i><b>5</b> Regressão no R - Relatório.</a><ul>
+<li class="chapter" data-level="5.1" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#relatório"><i class="fa fa-check"></i><b>5.1</b> Relatório</a></li>
+<li class="chapter" data-level="5.2" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#significância-dos-coeficientes"><i class="fa fa-check"></i><b>5.2</b> Significância dos coeficientes</a></li>
+<li class="chapter" data-level="5.3" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#estística-t-e-p-valor"><i class="fa fa-check"></i><b>5.3</b> Estística t e p-valor:</a></li>
+<li class="chapter" data-level="5.4" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#intervalos-de-confiança"><i class="fa fa-check"></i><b>5.4</b> Intervalos de confiança</a></li>
+<li class="chapter" data-level="5.5" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#medidas-de-ajuste-do-modelo"><i class="fa fa-check"></i><b>5.5</b> Medidas de ajuste do modelo</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#residual-standard-error-rse."><i class="fa fa-check"></i><b>5.5.1</b> Residual standard error (RSE).</a></li>
+<li class="chapter" data-level="5.5.2" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#r2-e-r2-ajustado"><i class="fa fa-check"></i><b>5.5.2</b> R<sup>2</sup> e R<sup>2</sup> ajustado</a></li>
+<li class="chapter" data-level="5.5.3" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#f-statistic"><i class="fa fa-check"></i><b>5.5.3</b> F-Statistic:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#resumo"><i class="fa fa-check"></i><b>5.6</b> Resumo</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referências.html"><a href="referências.html"><i class="fa fa-check"></i>Referências</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regressão Linear</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="intro" class="section level1">
+<h1><span class="header-section-number">Capítulo 1</span> Introdução</h1>
+<p>Francis Galton no artigo <strong><em>Regression towards Mediocrity in Hereditary Stature</em></strong> publicado no <strong>Journal of the Anthropological Institute</strong> em 1886 cunhou o termo
+<strong>regressão</strong> <span class="citation">(Galton <a href="#ref-Galton1886" role="doc-biblioref">1886</a>)</span>.</p>
+<p>Este artigo evidência que a altura média dos filhos de pais de uma dada altura tendia a se deslocar ou “regredir” até a altura média da população. Em outras palavras, a altura dos filhos de pais extraordinariamente altos ou baixos tende a se mover para a altura média da população.</p>
+<p>A <strong>regressão</strong> procura estudar a relação de uma variável, chamada dependente, em relação a uma ou mais variáveis, as variáveis independentes. O seu principal objetivo de estimar a média da população em termos dos valores conhecidos ou fixos (em amostragem repetida) das variáveis independentes.</p>
+<p>Este texto apresenta como fazer uma análise de regressão linear simples no R e para isso é apresentado de forma breve os conceitos de</p>
+<ul>
+<li>Ajuste pelo método do mínimos quadrados;</li>
+<li>Decomposição da soma dos quadrados total;</li>
+<li>Coeficiente de determinação e coeficiente de determinação ajustad; e</li>
+<li>ANOVA para modelos de regressão simples.</li>
+</ul>
+<div id="ajuste-do-modelo" class="section level2">
+<h2><span class="header-section-number">1.1</span> Ajuste do modelo</h2>
+<p>Em <span class="citation">(Nelson <a href="#ref-Nelson2004" role="doc-biblioref">2004</a>)</span> o termo <strong>regressão</strong> é definido como um modelo estatístico para previsão do valor médio de uma variável aleatória (v.a.) quando outras variáveis, uma ou mais, assumem um valor fixo.</p>
+<p>Pode-se citar as seguintes situações como exemplo:</p>
+<ul>
+<li><p>a equação que retorna as distâncias médias entre as paradas dos carros em uma viagem para uma deteminada velocidade, ou</p></li>
+<li><p>a equação que relaciona o peso médio de uma criança de uma certa idade.</p></li>
+</ul>
+<p>Mais formalmente, seja o valor médio da v.a. Y para um dado valor de X e denotado por <span class="math inline">\(E(Y|X)\)</span>. Logo, a regressão de Y em X é uma equação expressa <span class="math inline">\(E(Y|X)\)</span> em termos de X. Essa equação é chamada de <em>equação de regressão</em> e prediz o valor médio de Y para um dado valor X.</p>
+<p>Nesse contexto:</p>
+<ul>
+<li><p>A v.a. Y é a variavel dependente (ou resposta).</p></li>
+<li><p>A variável X é a variável independente (ou explanatória).</p></li>
+<li><p><span class="math inline">\(E(Y|X)\)</span> é poder ser abreviada por <span class="math inline">\(y_x\)</span> ou Y.</p></li>
+</ul>
+<p>Uma <strong>regressão linear simples</strong> ocorre quando o valor médio de <span class="math inline">\(Y\)</span> é função linear de apenas uma varíavel <span class="math inline">\(X\)</span>, assim</p>
+<p><span class="math display">\[
+E(Y|X) = \beta_o + \beta_1 x, 
+\]</span></p>
+<p>onde <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span> são parâmetros e designaodos por <em>coeficientes de regressão</em>, e a principal tarefa da análise de regressão é estimar valores para estes parâmetros a partir de dados amostrais. Se Y apresentar uma distribuição normal com variância constante <span class="math inline">\(\sigma^2\)</span> para cada valor de X, para uma amostra de valores de n pares <span class="math inline">\((x_i, y_i)\)</span> independentes, o método de <strong>Mínimos Quadrados Ordinários</strong> dão as melhores estimativas de <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span>.</p>
+<p>As estimativas <span class="math inline">\(\hat{\beta_0}\)</span> e <span class="math inline">\(\hat{\beta_1}\)</span> dos parâmetros <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span> fornecidas pelo método dos mínimos quadrados ordinários podem ser obtidas na maioria das calculadoras e dos pacotes estatísticos. Eles, também, podem ser calculados diretamente pelas fórmulas:</p>
+<p><span class="math display">\[
+\hat{\beta_1}=\dfrac{n\sum_i x_iy_i - \sum_i x_i \sum_i y_i}{n\sum_i x_i^2 - \left(\sum_i x_i\right)^2}
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\hat{\beta_0} = \bar{y} - \hat{\beta_1}\bar{x},
+\]</span></p>
+<p>onde</p>
+<p><span class="math display">\[
+\bar{x}=\dfrac{\sum_i x_i}{n}
+\]</span>
+e</p>
+<p><span class="math display">\[
+\bar{y}=\dfrac{\sum_i y_i}{n}
+\]</span></p>
+<p>A reta com a equação <span class="math inline">\(Y= \beta_0+\beta_1X\)</span> é chamada regressão linear de Y em X.</p>
+<!-- Modelos nos quais a equação é linear nos parâmetros são chamados modelos de regressão linear, e aqueles com mais de uma variável independente são modelos de regressão linear múltiplos. Por exemplo, na economia, a *equação de demanda* -->
+<!-- $$ -->
+<!-- q = \beta_0 + \beta_1 x + \beta_2 p, -->
+<!-- $$ -->
+<!-- é um modelo de regressão linear múltiplo prevendo q, a quantidade média de uma comodite comprada para um  preço p e a renda do consumidor  x. Assim, q é equivalente a $E(Q|x,p)$ na nossa notação. Os parâmetros procurados são  $\beta_0$, $\beta_1$ e $\beta_2$.  -->
+<!-- Similarmente, com base em  mais de 1000 observações feitas por Francis Galton, em 1903, o modelo linear múltiplo que estimou a altura de um filho (em centímetros) como base na alturas dos pais é  -->
+<!-- $$ -->
+<!-- s = 35.76 + 0.41f + 0.43m, -->
+<!-- $$ -->
+<!-- onde f e m são alturas de um dado pai e mãe, e s é a altura predita  para o filho. -->
+<!-- Quando a equação de regressão é não linear nas variáveis independentes, a regressão é dita curvelinear. Por exemplo, em alguns estudos sobre fungicidas uma equação de regressão utilizada para a média de números de esporos mortos Y, quando a concentração de um fungicida aplicado está fixado em X é -->
+<!-- $$ -->
+<!-- y = \beta_0 + \beta_1 \log x. -->
+<!-- $$ -->
+<!-- A regressão de números de esporos mortos na concentração é curvelinear.  -->
+<div id="peso-e-altura-de-mulheres" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> Peso e Altura de Mulheres</h3>
+<p>O data frame <code>women</code> tráz o peso médio e a altura de 15 (quinze) mulheres americanas com idades entre 30 e 39 anos. A variável <code>height</code> (altura) está em polegadas e variável <code>weight</code> (peso) está em libras. O gráfico de dispersão indica a existência de uma relação linear entre a varíavel <code>weigth</code> e <code>heigth</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="intro.html#cb1-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="intro.html#cb1-2"></a></span>
+<span id="cb1-3"><a href="intro.html#cb1-3"></a><span class="kw">ggplot</span>(women, <span class="kw">aes</span>(<span class="dt">x=</span>height, <span class="dt">y=</span>weight)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1-4"><a href="intro.html#cb1-4"></a><span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb1-5"><a href="intro.html#cb1-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Altura em polegadas.&quot;</span>,</span>
+<span id="cb1-6"><a href="intro.html#cb1-6"></a>       <span class="dt">y=</span><span class="st">&quot;Peso em libras&quot;</span>)<span class="op">+</span></span>
+<span id="cb1-7"><a href="intro.html#cb1-7"></a><span class="st">  </span><span class="kw">theme_classic</span>()</span></code></pre></div>
+<p><img src="regressao_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>O código a seguir utiliza as fórmulas para os estimadores <span class="math inline">\(\hat{\beta}_0\)</span> e <span class="math inline">\(\hat{\beta}_1\)</span> para encontrar as respectivas estimatias.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="intro.html#cb2-1"></a>n  &lt;-<span class="st"> </span><span class="kw">nrow</span>(women)</span>
+<span id="cb2-2"><a href="intro.html#cb2-2"></a>X  &lt;-<span class="st"> </span>women<span class="op">$</span>height</span>
+<span id="cb2-3"><a href="intro.html#cb2-3"></a>Y  &lt;-<span class="st"> </span>women<span class="op">$</span>weight</span>
+<span id="cb2-4"><a href="intro.html#cb2-4"></a>Sx &lt;-<span class="st"> </span><span class="kw">sum</span>(X) </span>
+<span id="cb2-5"><a href="intro.html#cb2-5"></a>Sx_quadrado &lt;-<span class="kw">sum</span> (X<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb2-6"><a href="intro.html#cb2-6"></a>Sy  &lt;-<span class="st"> </span><span class="kw">sum</span>(Y)</span>
+<span id="cb2-7"><a href="intro.html#cb2-7"></a>Sxy &lt;-<span class="st"> </span><span class="kw">sum</span>(X<span class="op">*</span>Y)</span>
+<span id="cb2-8"><a href="intro.html#cb2-8"></a>x_barra &lt;-<span class="st"> </span><span class="kw">mean</span>(X)</span>
+<span id="cb2-9"><a href="intro.html#cb2-9"></a>y_barra &lt;-<span class="st"> </span><span class="kw">mean</span>(Y)</span>
+<span id="cb2-10"><a href="intro.html#cb2-10"></a></span>
+<span id="cb2-11"><a href="intro.html#cb2-11"></a>beta1 &lt;-<span class="st"> </span>(n<span class="op">*</span><span class="st"> </span>Sxy <span class="op">-</span><span class="st"> </span>Sx<span class="op">*</span>Sy)<span class="op">/</span><span class="st"> </span>(n<span class="op">*</span>Sx_quadrado <span class="op">-</span><span class="st"> </span>(Sx)<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb2-12"><a href="intro.html#cb2-12"></a>beta0 &lt;-<span class="st"> </span>y_barra <span class="op">-</span><span class="st"> </span>beta1<span class="op">*</span>x_barra</span></code></pre></div>
+<p>Assim, com <span class="math inline">\(\hat{\beta}_0 = -87.52\)</span> e <span class="math inline">\(\hat{\beta}_0 = 3.45\)</span>, o modelo proposto é:</p>
+<p><span class="math display">\[
+weigth = -87.52 + 3.45heigth
+\]</span></p>
+</div>
+</div>
+<div id="inferência-em-regressão-linear" class="section level2">
+<h2><span class="header-section-number">1.2</span> Inferência em regressão linear</h2>
+<p>Uma alternativa, equivalente formulação da média da regressão da equação é</p>
+<p><span class="math display">\[
+Y = \beta_0 + \beta_1 x + \epsilon,
+\]</span></p>
+<p>onde <span class="math inline">\(\epsilon\)</span> é um componente aleatório, independente de X, tal que <span class="math inline">\(\epsilon \sim N(0, \sigma^2 )\)</span>, isto é, tem distribuição normal com média zero e variância constante <span class="math inline">\(\sigma^2\)</span>.</p>
+<p>Para ser realizada inferência sobre os parâmetros e os valores preditos é necessário que sejam satisfeitos os seguintes pressupostos:</p>
+<ol style="list-style-type: decimal">
+<li>A relação entre X e Y é linear.</li>
+<li>Os valores de X são fixos, isto é, X não é uma variável aleatória.</li>
+<li>Os erros tém média igual a 0 (zero), <span class="math inline">\(E(e_i)=0\)</span>.</li>
+<li>Para um dado valor de X, a variância dos erros é sempre <span class="math inline">\(\sigma^2\)</span>.</li>
+<li>O erro de uma observação é idependente do erro de outra observação, <span class="math inline">\(E(e_ie_j)=0\)</span> para <span class="math inline">\(\forall i \neq j\)</span>.</li>
+<li>Os erros tem distrbuição normal.</li>
+</ol>
+<p>Combinando os pressupostos 3, 4, 5 e 6 tem-se que os erros não Normalmente e Independentemente Distribuidos com média 0 (zero) e variância <span class="math inline">\(\sigma^2\)</span>.</p>
+<p>As pressuposições 1, 2 e 3 permitem escrever <span class="math inline">\(E(Y) = \beta_0 + \beta_1X\)</span>, isto é, a s média das distribuições de <span class="math inline">\(Y|X\)</span> estão sobre a reta <span class="math inline">\(\beta_0 + \beta_1X\)</span>.</p>
+<p>O pressuposto 4 faz com que <span class="math inline">\(Y|X\)</span> tenham a mesma variância <span class="math inline">\(\sigma^2\)</span>, isto é, os valores de Y relacionados a diferentes valores de X apresentam a mesma variância.</p>
+<p>A pressuposição 6 é necessária para que se posssa utilizar as distribuições <strong>t</strong> e <strong>F</strong>, a fim de testar hipóteses ou construir intervalos de confiança.</p>
+<p>No próximo tópico, será apresentada a decomposição da soma dos quadrado total para para justificar a construção de uma tabela ANOVA, na qual há um teste F, que procura verificar se o parãmetro <span class="math inline">\(\beta_1\)</span> é significativo.</p>
+<div id="decomposião-da-soma-dos-quadrados-total" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> Decomposião da Soma dos Quadrados Total</h3>
+<p>A Soma dos Quatrados Total (<strong>SQT</strong>) é definida para uma amostra de n pares ordenados <span class="math inline">\((x_i,y_i)\)</span>, com <span class="math inline">\(i = 1,2 , \ldots, n\)</span>, pela fórmula:</p>
+<p><span class="math display">\[
+SQT = \sum_{i=1}^y \left( y_i - \bar{y}\right)^2,
+\]</span>
+onde <span class="math inline">\(\bar{y}\)</span> é a média dos valores observados em <span class="math inline">\(y\)</span>.</p>
+<p>Sendo <span class="math inline">\(\hat{y_i}\)</span> o valor predito pelo modelo de regressão linear simples e partindo da identidade <span class="math inline">\(y_i - \bar{y}_i = \hat{y} - \bar{y} + y_i - \bar{y}_i\)</span>, é possivel dividir a <strong>SQT</strong> em duas parcelas:</p>
+<ul>
+<li>A Somas dos Quadrados da Regressão (<strong>SQReg</strong>) dada por:</li>
+</ul>
+<p><span class="math display">\[
+SQT = \sum_{i=1}^y \left( \hat{y}_i - \bar{y}\right)^2
+\]</span>
++ A Soma dos Quadrados dos Resíduos dado por :</p>
+<p><span class="math display">\[
+SQT = \sum_{i=1}^y \left( y_i - \hat{y}\right)^2,
+\]</span></p>
+<p>Assim, tem-se a igualdade <span class="math inline">\(SQT = SQReg + SQRes\)</span> ou, de outra forma,</p>
+<p><span class="math display">\[
+\sum_{i=1}^y \left( y_i - \bar{y}\right)^2 =  \sum_{i=1}^y \left( \hat{y}_i - \bar{y}\right)+ 
+\sum_{i=1}^y \left( y_i - \hat{y}_i\right)^2
+\]</span>
+### Exemplo</p>
+<p>Seja uma amostra de seis pares de valores.</p>
+<table>
+<thead>
+<tr class="header">
+<th>X</th>
+<th>Y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>3,0</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>8,0</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>7,0</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>11,0</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>10,0</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>12,0</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="intro.html#cb3-1"></a>X &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>)</span>
+<span id="cb3-2"><a href="intro.html#cb3-2"></a>Y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">3.0</span>, <span class="fl">8.0</span>, <span class="fl">7.0</span>, <span class="fl">11.0</span>, <span class="fl">10.0</span>, <span class="fl">12.0</span>)</span></code></pre></div>
+<p>Admitindo que X e Y se realcionam pelo modelo <span class="math inline">\(Y_i = \beta_0 + \beta_1X_i + \epsilon_i\)</span>, onde <span class="math inline">\(e_i\)</span> são independentes com distribuição normal com média zero e variãncia $^2.</p>
+<p><strong>Determine as estimativas do modelo.</strong></p>
+<p>Utilizando o método dos mínimos quadrados ordinários tem-se que</p>
+<p><span class="math display">\[
+\hat{\beta_1}=\dfrac{n\sum_i x_iy_i - \sum_i x_i \sum_i y_i}{n\sum_i x_i^2 - \left(\sum_i x_i\right)^2}
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\hat{\beta_0} = \bar{y} - \hat{\beta_1}\bar{x},
+\]</span></p>
+<p>Assim,</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="intro.html#cb4-1"></a>n  &lt;-<span class="st"> </span><span class="kw">length</span>(X)</span>
+<span id="cb4-2"><a href="intro.html#cb4-2"></a>Sx &lt;-<span class="st"> </span><span class="kw">sum</span>(X) </span>
+<span id="cb4-3"><a href="intro.html#cb4-3"></a>Sx_quadrado &lt;-<span class="kw">sum</span> (X<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb4-4"><a href="intro.html#cb4-4"></a>Sy  &lt;-<span class="st"> </span><span class="kw">sum</span>(Y)</span>
+<span id="cb4-5"><a href="intro.html#cb4-5"></a>Sxy &lt;-<span class="st"> </span><span class="kw">sum</span>(X<span class="op">*</span>Y)</span>
+<span id="cb4-6"><a href="intro.html#cb4-6"></a>x_barra &lt;-<span class="st"> </span><span class="kw">mean</span>(X)</span>
+<span id="cb4-7"><a href="intro.html#cb4-7"></a>y_barra &lt;-<span class="st"> </span><span class="kw">mean</span>(Y)</span>
+<span id="cb4-8"><a href="intro.html#cb4-8"></a></span>
+<span id="cb4-9"><a href="intro.html#cb4-9"></a>beta1 &lt;-<span class="st"> </span>(n<span class="op">*</span><span class="st"> </span>Sxy <span class="op">-</span><span class="st"> </span>Sx<span class="op">*</span>Sy)<span class="op">/</span><span class="st"> </span>(n<span class="op">*</span>Sx_quadrado <span class="op">-</span><span class="st"> </span>(Sx)<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb4-10"><a href="intro.html#cb4-10"></a>beta0 &lt;-<span class="st"> </span>y_barra <span class="op">-</span><span class="st"> </span>beta1<span class="op">*</span>x_barra</span></code></pre></div>
+<p>Logo, <span class="math inline">\(\hat{\beta_0} = 2.93\)</span> e <span class="math inline">\(\hat{\beta_1} = 1.24\)</span>.</p>
+<p><strong>Obtenha a soma dos quadrados</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="intro.html#cb5-1"></a>Y_chapeu &lt;-<span class="st"> </span>beta0 <span class="op">+</span><span class="st"> </span>beta1<span class="op">*</span>X</span>
+<span id="cb5-2"><a href="intro.html#cb5-2"></a></span>
+<span id="cb5-3"><a href="intro.html#cb5-3"></a>SQT   &lt;-<span class="st"> </span><span class="kw">sum</span>((Y <span class="op">-</span><span class="st"> </span>y_barra)<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb5-4"><a href="intro.html#cb5-4"></a>SQReg &lt;-<span class="st"> </span><span class="kw">sum</span>((Y_chapeu <span class="op">-</span><span class="st"> </span>y_barra)<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb5-5"><a href="intro.html#cb5-5"></a>SQRes &lt;-<span class="st"> </span><span class="kw">sum</span>((Y <span class="op">-</span><span class="st"> </span>Y_chapeu)<span class="op">^</span><span class="dv">2</span>)</span></code></pre></div>
+<p>Logo,</p>
+<ul>
+<li><strong>SQT</strong> = 53.5</li>
+<li><strong>SQReg</strong> = 45.16</li>
+<li><strong>SQRes</strong> = 8.34</li>
+</ul>
+<p>Com estimativas <strong>SQT</strong> e <strong>SQReg</strong> pode-se obter uma medida de qualidade do modelo. Esta médida é o <span class="math inline">\(R^2\)</span>, conhecido por coeficiente de determinação, que é definido por</p>
+<p><span class="math display">\[
+R^2 = \dfrac{SQReg}{SQT}.
+\]</span>
+O <span class="math inline">\(R^2\)</span> é a proporção da variãncia explicada pela regressão. O seu valor varia de 0 (zero) a 1(um) e quanto maior o seu valor melhor. Com os dados utilizados tem-se que <span class="math inline">\(R^2 = 0.84\)</span>.</p>
+<p>No caso de uma regressão linear simples, o <span class="math inline">\(R^2\)</span> pode diminuir com o aumento do número de observações. Para contornar esse incoveniente, foi definido coeficeinte de determinação corrigido</p>
+<p><span class="math display">\[
+\bar{R}^2 = R^2 - \dfrac{1}{n-2}(1- R^2),
+\]</span>
+onde n é quantidade de observações na amostra. Para os dados do exemplo, tem-se <span class="math inline">\(\bar{R}^2 = 0.81\)</span>. É importante notar:</p>
+<ul>
+<li><p><span class="math inline">\(\bar{R}^2 &lt; R^2\)</span> e</p></li>
+<li><p><span class="math inline">\(\bar{R}^2\)</span> pode assumir um valor negativo.</p></li>
+</ul>
+<p><strong>Valor Esperado para as Somas dos Quadrados</strong></p>
+<p>As somas dos quadrados sendo estimativas e com valores dependentes da amostra analisada, tém distribuição de probabilidade, portanto, é possível se obter para cada soma um seu valor esperado. Os graus de liberdade e valores esperados dos estimadores dessas somas de quadrados que estão na tabela abaixo:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>SQ</strong></th>
+<th align="left">Valor Esperado - <strong>E(SQ)</strong></th>
+<th align="left">Graus de Liberdade - <strong>gl</strong> :</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SQReg</td>
+<td align="left"><span class="math inline">\(\sigma^2 + \beta_1^2 + \sum x_i^2\)</span></td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">SQres</td>
+<td align="left"><span class="math inline">\((n-2)\sigma^2\)</span></td>
+<td align="left">n-2</td>
+</tr>
+<tr class="odd">
+<td align="left">SQT</td>
+<td align="left"><span class="math inline">\((n-1)\sigma^2 + \beta_1^2 + \sum x_i^2\)</span></td>
+<td align="left">n-1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Quadrados médios</strong></p>
+<p>A fim de construir uma ANOVA são necessários os Quadrados Médios (<strong>QM</strong>) da <strong>SQReg</strong> e dos <strong>SQRes</strong>, que são <strong>SReg</strong> e <strong>SQRes</strong> divididos pelos respectivos graus de liberdade.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>SQ</strong></th>
+<th align="left"><strong>gl</strong></th>
+<th align="left"><strong>QM</strong></th>
+<th align="left">Valor Esperado - <strong>E(QM)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SQReg</td>
+<td align="left">1</td>
+<td align="left"><span class="math inline">\(\dfrac{SQReg}{1}\)</span></td>
+<td align="left"><span class="math inline">\(\sigma^2 + \beta_1^2 + \sum x_i^2\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">SQres</td>
+<td align="left">n-2</td>
+<td align="left"><span class="math inline">\(\dfrac{SQRes}{n-2}\)</span></td>
+<td align="left"><span class="math inline">\(\dfrac{(n-2)\sigma^2}{(n-2)}= \sigma^2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>ANOVA</strong></p>
+<p>Os resultados acima podem ser organizados de forma a gerar uma análise de variância para o modelo de regressão linear:</p>
+<table>
+<colgroup>
+<col width="29%" />
+<col width="9%" />
+<col width="28%" />
+<col width="8%" />
+<col width="24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Fonte de variação <strong>FV </strong></th>
+<th align="left"><strong>gl</strong></th>
+<th align="left"><strong>SQ</strong></th>
+<th align="left"><strong>QM</strong></th>
+<th align="left"><strong>F</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Regressão</td>
+<td align="left">1</td>
+<td align="left"><span class="math inline">\(\sum_{i=1}^n (\hat{y}_i - \bar{y})^2\)</span></td>
+<td align="left"><span class="math inline">\(\dfrac{\sum_{i=1}^n (\hat{Y}_i - \bar{y})^2}{1}\)</span></td>
+<td align="left"><span class="math inline">\(\dfrac{QMReg}{QMRes}\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">Resíduo</td>
+<td align="left">n-2</td>
+<td align="left"><span class="math inline">\(\sum_{i=1}^n (y_i - \hat{y}_i )^2\)</span></td>
+<td align="left"><span class="math inline">\(\dfrac{\sum_{i=1}^n (y_i - \hat{y}_i)^2}{n-2}\)</span></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Tital</td>
+<td align="left">n-1</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="teste-t-para-os-parâmetros" class="section level3">
+<h3><span class="header-section-number">1.2.2</span> Teste t para os parâmetros</h3>
+<p>É possível realizar inferência sobre os parãometros estimados e sobre os valores preditos. Para isso é necessário obter a variâncias dessas estimativas. Se os pressupostos dos modelo forem atendidos, pode-se demostrar essas variancias estimadas são:</p>
+<ul>
+<li>Variância de <span class="math inline">\(\hat(\beta_0)\)</span></li>
+</ul>
+<p><span class="math display">\[
+Var(\hat\beta_0)= \left( \dfrac{1}{n}+ \dfrac{\bar{X}}{\sum x_i ^2} \right)
+\]</span>
++ Variância de <span class="math inline">\(\hat(\beta_0)\)</span></p>
+<p><span class="math display">\[
+Var(\hat\beta_1)= \left( \dfrac{s^2}{\sum x_i ^2} \right)
+\]</span></p>
+
+</div>
+</div>
+</div>
+<h3>Referências</h3>
+<div id="refs" class="references">
+<div id="ref-Galton1886">
+<p>Galton, Francis. 1886. “Regression Towards Mediocrity in Hereditary Stature.” <em>Journal of the Anthropological Institute</em> 15: 246–63.</p>
+</div>
+<div id="ref-Nelson2004">
+<p>Nelson, David. 2004. <em>Dictionary of Statitics</em>. Penguin UK.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="função-lm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["regressao.pdf", "regressao.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 3 Regressão Linear Simples no R | Regressão Linear</title>
+  <meta name="description" content="Este trbalho tem como apresentar exemplos análises de regressão linea utilizando o R." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 3 Regressão Linear Simples no R | Regressão Linear" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Este trbalho tem como apresentar exemplos análises de regressão linea utilizando o R." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 3 Regressão Linear Simples no R | Regressão Linear" />
+  
+  <meta name="twitter:description" content="Este trbalho tem como apresentar exemplos análises de regressão linea utilizando o R." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="função-lm.html"/>
+<link rel="next" href="exercícios.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Regressão: notas de aula I</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Objetivo</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introdução</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#ajuste-do-modelo"><i class="fa fa-check"></i><b>1.1</b> Ajuste do modelo</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="intro.html"><a href="intro.html#peso-e-altura-de-mulheres"><i class="fa fa-check"></i><b>1.1.1</b> Peso e Altura de Mulheres</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#inferência-em-regressão-linear"><i class="fa fa-check"></i><b>1.2</b> Inferência em regressão linear</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#decomposião-da-soma-dos-quadrados-total"><i class="fa fa-check"></i><b>1.2.1</b> Decomposião da Soma dos Quadrados Total</a></li>
+<li class="chapter" data-level="1.2.2" data-path="intro.html"><a href="intro.html#teste-t-para-os-parâmetros"><i class="fa fa-check"></i><b>1.2.2</b> Teste t para os parâmetros</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="função-lm.html"><a href="função-lm.html"><i class="fa fa-check"></i><b>2</b> Função lm()</a></li>
+<li class="chapter" data-level="3" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html"><i class="fa fa-check"></i><b>3</b> Regressão Linear Simples no R</a><ul>
+<li class="chapter" data-level="3.1" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#exemplo-1"><i class="fa fa-check"></i><b>3.1</b> Exemplo 1</a></li>
+<li class="chapter" data-level="3.2" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#exemplo-2"><i class="fa fa-check"></i><b>3.2</b> Exemplo 2</a></li>
+<li class="chapter" data-level="3.3" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#exemplo-3"><i class="fa fa-check"></i><b>3.3</b> Exemplo 3</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#implementação-no-r"><i class="fa fa-check"></i><b>3.3.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="3.3.2" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#visualizaçao-dos-dados"><i class="fa fa-check"></i><b>3.3.2</b> Visualizaçao dos dados</a></li>
+<li class="chapter" data-level="3.3.3" data-path="intro.html"><a href="intro.html#ajuste-do-modelo"><i class="fa fa-check"></i><b>3.3.3</b> Ajuste do Modelo</a></li>
+<li class="chapter" data-level="3.3.4" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#qualidade-do-ajuste"><i class="fa fa-check"></i><b>3.3.4</b> Qualidade do Ajuste</a></li>
+<li class="chapter" data-level="3.3.5" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#pressupostos-do-modelo"><i class="fa fa-check"></i><b>3.3.5</b> Pressupostos do Modelo</a></li>
+<li class="chapter" data-level="3.3.6" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#teste-de-bartlett"><i class="fa fa-check"></i><b>3.3.6</b> Teste de Bartlett</a></li>
+<li class="chapter" data-level="3.3.7" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#teste-de-shapiro-wilk"><i class="fa fa-check"></i><b>3.3.7</b> Teste de Shapiro-Wilk</a></li>
+<li class="chapter" data-level="3.3.8" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#interpretação-do-modelo"><i class="fa fa-check"></i><b>3.3.8</b> Interpretação do Modelo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="exercícios.html"><a href="exercícios.html"><i class="fa fa-check"></i><b>4</b> Exercícios</a></li>
+<li class="chapter" data-level="5" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html"><i class="fa fa-check"></i><b>5</b> Regressão no R - Relatório.</a><ul>
+<li class="chapter" data-level="5.1" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#relatório"><i class="fa fa-check"></i><b>5.1</b> Relatório</a></li>
+<li class="chapter" data-level="5.2" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#significância-dos-coeficientes"><i class="fa fa-check"></i><b>5.2</b> Significância dos coeficientes</a></li>
+<li class="chapter" data-level="5.3" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#estística-t-e-p-valor"><i class="fa fa-check"></i><b>5.3</b> Estística t e p-valor:</a></li>
+<li class="chapter" data-level="5.4" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#intervalos-de-confiança"><i class="fa fa-check"></i><b>5.4</b> Intervalos de confiança</a></li>
+<li class="chapter" data-level="5.5" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#medidas-de-ajuste-do-modelo"><i class="fa fa-check"></i><b>5.5</b> Medidas de ajuste do modelo</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#residual-standard-error-rse."><i class="fa fa-check"></i><b>5.5.1</b> Residual standard error (RSE).</a></li>
+<li class="chapter" data-level="5.5.2" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#r2-e-r2-ajustado"><i class="fa fa-check"></i><b>5.5.2</b> R<sup>2</sup> e R<sup>2</sup> ajustado</a></li>
+<li class="chapter" data-level="5.5.3" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#f-statistic"><i class="fa fa-check"></i><b>5.5.3</b> F-Statistic:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="regressão-no-r-relatório-.html"><a href="regressão-no-r-relatório-.html#resumo"><i class="fa fa-check"></i><b>5.6</b> Resumo</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referências.html"><a href="referências.html"><i class="fa fa-check"></i>Referências</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regressão Linear</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="regressão-linear-simples-no-r" class="section level1">
+<h1><span class="header-section-number">Capítulo 3</span> Regressão Linear Simples no R</h1>
+<p>Em uma regressão linear simples a variável dependente Y é explicada por uma variável independente X.</p>
+<p>Caso o diagrama de dispersão X e Y apresente pontos dispostos em torno de uma linha reta, existe uma evidência de uma relação linear entre as variáveis analisadas.</p>
+<p>O exemplos I e II são adaptaçãos dos apresentados em <span class="citation">(Melo and Peternelli <a href="#ref-Melo2013" role="doc-biblioref">2013</a> , pp. 190-200)</span></p>
+<div id="exemplo-1" class="section level2">
+<h2><span class="header-section-number">3.1</span> Exemplo 1</h2>
+<p>Um engeinheiro civil coleta dados em laborátorio, a fim de estudar a dilatação de um pilar de concreto segundo a temperatura ambiente no local onde se encontra o pilar. São os dados:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Temperatura (ºC)</th>
+<th>Dilatação (mm)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>18</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>25</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>22</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>20</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>22</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>23</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td>19</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<p>Algumas perguntas são comuns:</p>
+<ul>
+<li><p>Posso realizar um estudo de regressão?</p></li>
+<li><p>Qual o modelo usar?</p></li>
+<li><p>Qual a equação que relaciona a dilatação e a temperatura?</p></li>
+<li><p>A temperatura realmente exerce influencia na dilatação do pilar?</p></li>
+<li><p>E possível quantificar essa relação?</p></li>
+</ul>
+<p>As respostas procuradas podem ser encontradas realizando-se uma análise de regressão.</p>
+<p>Primeiro é criado um data frame com os dados de dilatação e temperatura.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="regressão-linear-simples-no-r.html#cb7-1"></a>temp &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">18</span>,<span class="dv">16</span>,<span class="dv">25</span>,<span class="dv">22</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">23</span>,<span class="dv">19</span>,<span class="dv">17</span>)</span>
+<span id="cb7-2"><a href="regressão-linear-simples-no-r.html#cb7-2"></a>dilat &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">10</span>,<span class="dv">8</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">6</span>,<span class="dv">5</span>)</span>
+<span id="cb7-3"><a href="regressão-linear-simples-no-r.html#cb7-3"></a>dados &lt;-<span class="st"> </span><span class="kw">data.frame</span> (dilat, temp)</span></code></pre></div>
+<p>Inicialmente, o estudo de regressão pode ser feito com a escolha do modelo. Para auxiliar na escolha deste, visualizaremos os pontos em um gráfico de dispersão:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="regressão-linear-simples-no-r.html#cb8-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb8-2"><a href="regressão-linear-simples-no-r.html#cb8-2"></a></span>
+<span id="cb8-3"><a href="regressão-linear-simples-no-r.html#cb8-3"></a><span class="kw">ggplot</span>(dados, <span class="kw">aes</span>(<span class="dt">x=</span>temp, <span class="dt">y=</span>dilat)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb8-4"><a href="regressão-linear-simples-no-r.html#cb8-4"></a><span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb8-5"><a href="regressão-linear-simples-no-r.html#cb8-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Temperatura (ºC)&quot;</span>,</span>
+<span id="cb8-6"><a href="regressão-linear-simples-no-r.html#cb8-6"></a>       <span class="dt">y=</span><span class="st">&quot;Dilatação (mm)&quot;</span>)<span class="op">+</span></span>
+<span id="cb8-7"><a href="regressão-linear-simples-no-r.html#cb8-7"></a><span class="st">  </span><span class="kw">theme_classic</span>()</span></code></pre></div>
+<p><img src="regressao_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>O diagrama sugere uma tendência linear dos dados. Montaremos, portanto, um modelo de regressão linear simples, pois existe apenas uma variável independente temp relaciada à variável dependente dilat. Montando o modelo:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="regressão-linear-simples-no-r.html#cb9-1"></a>reglin &lt;-<span class="st"> </span><span class="kw">lm</span>(dilat <span class="op">~</span><span class="st"> </span>temp,</span>
+<span id="cb9-2"><a href="regressão-linear-simples-no-r.html#cb9-2"></a>             dados)</span>
+<span id="cb9-3"><a href="regressão-linear-simples-no-r.html#cb9-3"></a>reglin</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = dilat ~ temp, data = dados)
+## 
+## Coefficients:
+## (Intercept)         temp  
+##     -8.1710       0.7323</code></pre>
+<p>O modelo retorna duas informações:</p>
+<ul>
+<li><p>O valor do intercepto; e</p></li>
+<li><p>o valor do coeficiente de inclinação da reta.</p></li>
+</ul>
+<p>Esses valores são representados por <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span>, respectivamente. Assim podemos concluir que o modelo ajustado é:</p>
+<p><span class="math display">\[
+\hat{Y} = \hat{\beta_0}+ \hat{\beta_1}X
+\]</span>
+é
+<span class="math display">\[
+dilat = -8.1710 + 0.7323temp
+\]</span>
+onde a temperatura é dada em ºC e a dilatação em mm.</p>
+<p>Com o comando <code>predict()</code> podemos obter os valores calculados de <em>dilat</em>, de acordo com o modelo ajustado, para os valores de <em>temp</em>. Veja:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="regressão-linear-simples-no-r.html#cb11-1"></a><span class="kw">predict</span>(reglin)</span></code></pre></div>
+<pre><code>##         1         2         3         4         5         6         7         8 
+##  5.009677  3.545161 10.135484  7.938710  6.474194  7.206452  8.670968  5.741935 
+##         9 
+##  4.277419</code></pre>
+<p>O primeiro valor apresentado, ou seja, 5,009677, representa o que foi calculado para a dilatação quando a temperatura é 18ºC (a primeira do objeto <em>temp</em>), e assim sucessivamente até o último valor de <em>temp</em>, gerando o nove valores apresentados.</p>
+<p>Podemos também obter os resíduos associados a cada observação. Esses resíduos seriam simplesmente a diferença entre o valor observado e calculado correpondente a cada observação. Veja:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="regressão-linear-simples-no-r.html#cb13-1"></a><span class="kw">resid</span>(reglin)</span></code></pre></div>
+<pre><code>##            1            2            3            4            5            6 
+## -0.009677419 -0.545161290 -0.135483871  0.061290323 -0.474193548 -0.206451613 
+##            7            8            9 
+##  0.329032258  0.258064516  0.722580645</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="regressão-linear-simples-no-r.html#cb15-1"></a>dilat[<span class="dv">1</span>]<span class="op">-</span><span class="kw">predict</span>(reglin)[<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>##            1 
+## -0.009677419</code></pre>
+<p>A seguinte apresentação tabular poderia ser usada, resumindo as informações:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="regressão-linear-simples-no-r.html#cb17-1"></a>result &lt;-<span class="st"> </span><span class="kw">data.frame</span> (</span>
+<span id="cb17-2"><a href="regressão-linear-simples-no-r.html#cb17-2"></a>  dilat,</span>
+<span id="cb17-3"><a href="regressão-linear-simples-no-r.html#cb17-3"></a>  temp,</span>
+<span id="cb17-4"><a href="regressão-linear-simples-no-r.html#cb17-4"></a>  <span class="dt">calculado =</span> <span class="kw">predict</span>(reglin),</span>
+<span id="cb17-5"><a href="regressão-linear-simples-no-r.html#cb17-5"></a>  <span class="dt">residuo   =</span> <span class="kw">resid</span>(reglin)</span>
+<span id="cb17-6"><a href="regressão-linear-simples-no-r.html#cb17-6"></a>)</span>
+<span id="cb17-7"><a href="regressão-linear-simples-no-r.html#cb17-7"></a>result</span></code></pre></div>
+<pre><code>##   dilat temp calculado      residuo
+## 1     5   18  5.009677 -0.009677419
+## 2     3   16  3.545161 -0.545161290
+## 3    10   25 10.135484 -0.135483871
+## 4     8   22  7.938710  0.061290323
+## 5     6   20  6.474194 -0.474193548
+## 6     7   21  7.206452 -0.206451613
+## 7     9   23  8.670968  0.329032258
+## 8     6   19  5.741935  0.258064516
+## 9     5   17  4.277419  0.722580645</code></pre>
+<p>Agora vamos plotar novamente os dados e acrescentar ao gráfico, além da reta de regressão ajustada, segmentos de reta representando os resídous, ou seja, os segmento vão dos valores observados (pontos) aos calculádos (reta). Veja:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="regressão-linear-simples-no-r.html#cb19-1"></a><span class="kw">ggplot</span>(result) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb19-2"><a href="regressão-linear-simples-no-r.html#cb19-2"></a><span class="st">  </span><span class="kw">geom_line</span>( <span class="kw">aes</span>(<span class="dt">x=</span>temp, <span class="dt">y=</span>calculado),<span class="dt">color=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
+<span id="cb19-3"><a href="regressão-linear-simples-no-r.html#cb19-3"></a><span class="st">  </span><span class="kw">geom_segment</span>( <span class="kw">aes</span>(<span class="dt">x=</span>temp,</span>
+<span id="cb19-4"><a href="regressão-linear-simples-no-r.html#cb19-4"></a>                      <span class="dt">y=</span>dilat,</span>
+<span id="cb19-5"><a href="regressão-linear-simples-no-r.html#cb19-5"></a>                      <span class="dt">xend=</span>temp,</span>
+<span id="cb19-6"><a href="regressão-linear-simples-no-r.html#cb19-6"></a>                      <span class="dt">yend=</span>calculado) )<span class="op">+</span><span class="st"> </span></span>
+<span id="cb19-7"><a href="regressão-linear-simples-no-r.html#cb19-7"></a><span class="st">  </span><span class="kw">geom_point</span>( <span class="kw">aes</span>(<span class="dt">x=</span>temp, <span class="dt">y=</span>calculado), <span class="dt">colour=</span><span class="st">&quot;red&quot;</span>)<span class="op">+</span></span>
+<span id="cb19-8"><a href="regressão-linear-simples-no-r.html#cb19-8"></a><span class="st">  </span><span class="kw">geom_point</span>( <span class="kw">aes</span>(<span class="dt">x=</span>temp, <span class="dt">y=</span>dilat    ), <span class="dt">colour=</span><span class="st">&quot;red&quot;</span>)<span class="op">+</span></span>
+<span id="cb19-9"><a href="regressão-linear-simples-no-r.html#cb19-9"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Temperatura (ºC)&quot;</span>,</span>
+<span id="cb19-10"><a href="regressão-linear-simples-no-r.html#cb19-10"></a>       <span class="dt">y=</span><span class="st">&quot;Dilatação (mm)&quot;</span>)<span class="op">+</span></span>
+<span id="cb19-11"><a href="regressão-linear-simples-no-r.html#cb19-11"></a><span class="st">  </span><span class="kw">theme_classic</span>()</span></code></pre></div>
+<p><img src="regressao_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Podemos também realizar uma análise de variância da regressão da seguinte forma:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="regressão-linear-simples-no-r.html#cb20-1"></a><span class="kw">anova</span>(reglin)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: dilat
+##           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## temp       1 36.938  36.938   201.4 2.048e-06 ***
+## Residuals  7  1.284   0.183                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Por meio dessa análise podemos verificar que o coeficiente <span class="math inline">\(\beta_1\)</span> é significativo (<em>p-value</em> encontrado foi na ordem de 10<sup>-6</sup>), ou seja, a temperatura influência significativamente a dilatação.</p>
+<p>Com o comando <code>summary()</code> podemos obter muitas outras informaçãoes:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="regressão-linear-simples-no-r.html#cb22-1"></a><span class="kw">summary</span>(reglin)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = dilat ~ temp, data = dados)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.54516 -0.20645 -0.00968  0.25806  0.72258 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -8.1710     1.0475  -7.801 0.000107 ***
+## temp          0.7323     0.0516  14.191 2.05e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.4283 on 7 degrees of freedom
+## Multiple R-squared:  0.9664,	Adjusted R-squared:  0.9616 
+## F-statistic: 201.4 on 1 and 7 DF,  p-value: 2.048e-06</code></pre>
+<p>O valore do coeficiente de determinação (R<sup>2</sup>) é apresentaso em <em>Multiple R-squared: 0.9664</em> e representa o quanto da variação da dilatação pode ser explicada pela variação da temperatura. Uma vez que o valor encontrado foi quase de 97%, há indicação de que o modelo escolhido (linear) se ajusta bem aos dados.</p>
+<p>Estas informações permitem que e faça uma ampla análise do modelo, mas esse não é objetivo deste texto por enquanto.</p>
+</div>
+<div id="exemplo-2" class="section level2">
+<h2><span class="header-section-number">3.2</span> Exemplo 2</h2>
+<p>Da mesma forma que o modelo linear, qualquer modelo de regressão polinomial pode ser obtido com o comando <code>lm()</code>, que vem do inglês <em>linear models</em>. Veja o exemplo a seguir.</p>
+<p>Os dados a seguir referem-se à produção de certa variedade de grãos (<em>prod</em>) em relação a quantidade de fertilizante aplicado na lavoura (<em>fert</em>).</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="regressão-linear-simples-no-r.html#cb24-1"></a>fert &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>,<span class="dv">80</span>,<span class="dv">90</span>,<span class="dv">100</span>)</span>
+<span id="cb24-2"><a href="regressão-linear-simples-no-r.html#cb24-2"></a>prd  &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">42</span>,<span class="dv">61</span>,<span class="dv">81</span>,<span class="dv">94</span>,<span class="dv">98</span>,<span class="dv">96</span>,<span class="dv">83</span>,<span class="dv">79</span>,<span class="dv">59</span>,<span class="dv">43</span>)</span>
+<span id="cb24-3"><a href="regressão-linear-simples-no-r.html#cb24-3"></a></span>
+<span id="cb24-4"><a href="regressão-linear-simples-no-r.html#cb24-4"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb24-5"><a href="regressão-linear-simples-no-r.html#cb24-5"></a></span>
+<span id="cb24-6"><a href="regressão-linear-simples-no-r.html#cb24-6"></a><span class="kw">ggplot</span>(<span class="kw">data.frame</span>(fert, prd), <span class="kw">aes</span>(<span class="dt">x=</span>fert, <span class="dt">y=</span>prd)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb24-7"><a href="regressão-linear-simples-no-r.html#cb24-7"></a><span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb24-8"><a href="regressão-linear-simples-no-r.html#cb24-8"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Fetilizante&quot;</span>,</span>
+<span id="cb24-9"><a href="regressão-linear-simples-no-r.html#cb24-9"></a>       <span class="dt">y=</span><span class="st">&quot;Produção&quot;</span>)<span class="op">+</span></span>
+<span id="cb24-10"><a href="regressão-linear-simples-no-r.html#cb24-10"></a><span class="st">  </span><span class="kw">theme_classic</span>()</span></code></pre></div>
+<p><img src="regressao_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>Pelo diagrama de dispersão, observa-se uma tendência quadratica nos dados.</p>
+<p>Dentro do comando <code>lm()</code>, abaixo, observe a necessidade de usarmos, como parte do modelo, o comando <code>I()</code>. Esse comando permite inserimos diretamente, no modelo, termos do tipo <em>x<sup>2</sup></em>.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="regressão-linear-simples-no-r.html#cb25-1"></a>reg&lt;-<span class="st"> </span><span class="kw">lm</span>(prd<span class="op">~</span>fert <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(fert<span class="op">^</span><span class="dv">2</span>))</span>
+<span id="cb25-2"><a href="regressão-linear-simples-no-r.html#cb25-2"></a>reg</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = prd ~ fert + I(fert^2))
+## 
+## Coefficients:
+## (Intercept)         fert    I(fert^2)  
+##    15.51667      2.95720     -0.02716</code></pre>
+<p>Para acrescentar a curva no gráfico anterior e acrescentar os segmentos de reta que representa os resíduo</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="regressão-linear-simples-no-r.html#cb27-1"></a><span class="kw">ggplot</span>(<span class="kw">data.frame</span>(fert,</span>
+<span id="cb27-2"><a href="regressão-linear-simples-no-r.html#cb27-2"></a>                  prd, </span>
+<span id="cb27-3"><a href="regressão-linear-simples-no-r.html#cb27-3"></a>                  <span class="dt">calculado =</span> <span class="kw">predict</span>(reg))</span>
+<span id="cb27-4"><a href="regressão-linear-simples-no-r.html#cb27-4"></a>       ) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb27-5"><a href="regressão-linear-simples-no-r.html#cb27-5"></a><span class="st">  </span><span class="kw">geom_line</span>( <span class="kw">aes</span>(<span class="dt">x=</span>fert, <span class="dt">y=</span>calculado) ,<span class="dt">color=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
+<span id="cb27-6"><a href="regressão-linear-simples-no-r.html#cb27-6"></a><span class="st">  </span><span class="kw">geom_point</span>( <span class="kw">aes</span>(<span class="dt">x=</span>fert, <span class="dt">y=</span>calculado), <span class="dt">colour=</span><span class="st">&quot;red&quot;</span>)<span class="op">+</span></span>
+<span id="cb27-7"><a href="regressão-linear-simples-no-r.html#cb27-7"></a><span class="st">  </span><span class="kw">geom_point</span>( <span class="kw">aes</span>(<span class="dt">x=</span>fert, <span class="dt">y=</span>prd      ), <span class="dt">colour=</span><span class="st">&quot;red&quot;</span>)<span class="op">+</span></span>
+<span id="cb27-8"><a href="regressão-linear-simples-no-r.html#cb27-8"></a><span class="st">  </span><span class="kw">geom_segment</span>( <span class="kw">aes</span>(<span class="dt">x=</span>fert,</span>
+<span id="cb27-9"><a href="regressão-linear-simples-no-r.html#cb27-9"></a>                    <span class="dt">y=</span>prd,</span>
+<span id="cb27-10"><a href="regressão-linear-simples-no-r.html#cb27-10"></a>                    <span class="dt">xend=</span>fert,</span>
+<span id="cb27-11"><a href="regressão-linear-simples-no-r.html#cb27-11"></a>                    <span class="dt">yend=</span>calculado), <span class="dt">color=</span><span class="st">&quot;blue&quot;</span> )<span class="op">+</span><span class="st"> </span></span>
+<span id="cb27-12"><a href="regressão-linear-simples-no-r.html#cb27-12"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Fertilizante&quot;</span>,</span>
+<span id="cb27-13"><a href="regressão-linear-simples-no-r.html#cb27-13"></a>       <span class="dt">y=</span><span class="st">&quot;Produção&quot;</span>)<span class="op">+</span></span>
+<span id="cb27-14"><a href="regressão-linear-simples-no-r.html#cb27-14"></a><span class="st">  </span><span class="kw">theme_classic</span>()</span></code></pre></div>
+<p><img src="regressao_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+Varias outra análises podem ser feitas, conforme as realizadas no regressão linear. veja uma delas:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="regressão-linear-simples-no-r.html#cb28-1"></a><span class="kw">anova</span>(reg)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: prd
+##           Df Sum Sq Mean Sq  F value    Pr(&gt;F)    
+## fert       1    7.6     7.6   0.5878    0.4683    
+## I(fert^2)  1 3894.6  3894.6 302.2072 5.126e-07 ***
+## Residuals  7   90.2    12.9                       
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Considere que se queira obter simplesmente uma <strong>ANOVA</strong> contendo a soma dos da regressão como um todo. Nesse caso, pode-se usar os seguintes comandos:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="regressão-linear-simples-no-r.html#cb30-1"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(fert, <span class="dt">fert2 =</span> fert<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb30-2"><a href="regressão-linear-simples-no-r.html#cb30-2"></a>reg &lt;-<span class="st"> </span><span class="kw">lm</span>(prd<span class="op">~</span>X)</span>
+<span id="cb30-3"><a href="regressão-linear-simples-no-r.html#cb30-3"></a><span class="kw">anova</span>(reg)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: prd
+##           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## X          2 3902.2 1951.09   151.4 1.734e-06 ***
+## Residuals  7   90.2   12.89                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Compare o quadro da <strong>ANOVA</strong> com aquele anterior. Agora a fonte de variação X corresponde ao conjuto <em>fert</em> e <em>I(fert^2)</em> simultaneamente. A soma dos graus de liberdade (<em>DF</em>) e a soma dos quadrados (<em>Sum Sq</em>) do <em>fert</em> e <em>I(fert^2)</em> na primeira análise correspondem ao grau de liberdade e a soma dos quadrados de <em>X</em> na segunda análise. O uso de uma ou de outra forma de apresentação dos resultados dependerá do interesse do pesquisador.</p>
+<p>Outros modelos de regressão polinomial podem ser obtidos de maneira análoga.</p>
+</div>
+<div id="exemplo-3" class="section level2">
+<h2><span class="header-section-number">3.3</span> Exemplo 3</h2>
+<div id="implementação-no-r" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Implementação no R</h3>
+<p>Nesse exemplo, será utilizado um conjunto de dados em que a variável resposta (Y) é o tempo de reação a um certo estímulo, e a variável explicativa (X) é a idade do indivíduo. <span class="citation">(Bussab and Morettin <a href="#ref-Bussab1988" role="doc-biblioref">1988</a>)</span></p>
+<p>No R, dados em tabelas são objetos do tipo data frame, nos quais cada coluna corresponde a uma variável e cada linha corresponde a uma observação.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="regressão-linear-simples-no-r.html#cb32-1"></a>dados &lt;-<span class="st"> </span><span class="kw">data.frame</span> (</span>
+<span id="cb32-2"><a href="regressão-linear-simples-no-r.html#cb32-2"></a>          <span class="dt">tempo =</span> <span class="kw">c</span>(<span class="dv">96</span>,<span class="dv">92</span>,<span class="dv">106</span>,<span class="dv">100</span>,<span class="dv">98</span>,<span class="dv">104</span>,<span class="dv">110</span>,<span class="dv">101</span>,<span class="dv">116</span>,<span class="dv">106</span>,</span>
+<span id="cb32-3"><a href="regressão-linear-simples-no-r.html#cb32-3"></a>                    <span class="dv">109</span>,<span class="dv">100</span>,<span class="dv">112</span>,<span class="dv">105</span>,<span class="dv">118</span>,<span class="dv">108</span>,<span class="dv">113</span>,<span class="dv">112</span>,<span class="dv">127</span>,<span class="dv">117</span>),</span>
+<span id="cb32-4"><a href="regressão-linear-simples-no-r.html#cb32-4"></a>          <span class="dt">idade =</span> <span class="kw">c</span>(<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">25</span>,<span class="dv">25</span>,<span class="dv">25</span>,<span class="dv">25</span>,<span class="dv">30</span>,<span class="dv">30</span>,<span class="dv">30</span>,<span class="dv">30</span>,</span>
+<span id="cb32-5"><a href="regressão-linear-simples-no-r.html#cb32-5"></a>                    <span class="dv">35</span>,<span class="dv">35</span>,<span class="dv">35</span>,<span class="dv">35</span>,<span class="dv">40</span>,<span class="dv">40</span>,<span class="dv">40</span>,<span class="dv">40</span>))</span>
+<span id="cb32-6"><a href="regressão-linear-simples-no-r.html#cb32-6"></a>dados</span></code></pre></div>
+<pre><code>##    tempo idade
+## 1     96    20
+## 2     92    20
+## 3    106    20
+## 4    100    20
+## 5     98    25
+## 6    104    25
+## 7    110    25
+## 8    101    25
+## 9    116    30
+## 10   106    30
+## 11   109    30
+## 12   100    30
+## 13   112    35
+## 14   105    35
+## 15   118    35
+## 16   108    35
+## 17   113    40
+## 18   112    40
+## 19   127    40
+## 20   117    40</code></pre>
+</div>
+<div id="visualizaçao-dos-dados" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Visualizaçao dos dados</h3>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="regressão-linear-simples-no-r.html#cb34-1"></a><span class="kw">ggplot</span>(dados, <span class="kw">aes</span>(<span class="dt">x=</span>idade,<span class="dt">y=</span>tempo))<span class="op">+</span></span>
+<span id="cb34-2"><a href="regressão-linear-simples-no-r.html#cb34-2"></a><span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb34-3"><a href="regressão-linear-simples-no-r.html#cb34-3"></a><span class="st">  </span><span class="kw">theme_classic</span>()</span></code></pre></div>
+<p><img src="regressao_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>É possível observar um crescimento nos valores da variável Tempo de acordo com o aumento dos valores da variável Idade. Portanto, esperamos que o efeito da Idade sobre o Tempo seja positivo: <span class="math inline">\(β &gt; 0\)</span></p>
+</div>
+<div id="ajuste-do-modelo" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Ajuste do Modelo</h3>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="regressão-linear-simples-no-r.html#cb35-1"></a>modelo &lt;-<span class="st"> </span><span class="kw">lm</span> (tempo<span class="op">~</span>idade, <span class="dt">data=</span>dados )</span></code></pre></div>
+<p>podemos simplesmente consultar as estimativas dos parâmetros:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="regressão-linear-simples-no-r.html#cb36-1"></a>modelo<span class="op">$</span>coefficients</span></code></pre></div>
+<pre><code>## (Intercept)       idade 
+##        80.5         0.9</code></pre>
+<p>E temos a equação da reta ajustada:
+<span class="math display">\[
+E(Y ) = 80.5 + 0.9 ∗ idade.
+\]</span>
+Porém, como nossos parâmetros são estimativas pontuais, é interessante testar a sua significância , ou seja, com que nível de confiânça eu consigo afirmar que este efeito estimado é diferente de zero.</p>
+<p>O comando <code>summary()</code> poderá indicar se os seus parâmetros estimados são significativos ou não, ou seja, se é possível assumir que são diferentes de zero.
+Essa função também retorna a medida <span class="math inline">\(R^2\)</span> (adjusted R-squared), que indica o quanto da variação presente nos dados está sendo explicada pela covariável.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="regressão-linear-simples-no-r.html#cb38-1"></a><span class="kw">summary</span>(modelo)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = tempo ~ idade, data = dados)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -7.500 -4.125 -0.750  2.625 10.500 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  80.5000     5.4510  14.768 1.67e-11 ***
+## idade         0.9000     0.1769   5.089 7.66e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 5.593 on 18 degrees of freedom
+## Multiple R-squared:  0.5899,	Adjusted R-squared:  0.5672 
+## F-statistic:  25.9 on 1 and 18 DF,  p-value: 7.662e-05</code></pre>
+<p>Podemos observar neste output as estimativas dos parâmetros, o erro padrão associado a cada estimativa, uma estatística <em>t</em> e um <em>p-valor</em> associado, resultado do <em>teste t</em> utilizado para saber se as estimativas são realmente diferentes de zero. Quanto mais asteriscos presentes ao lado do efeito estimado, maior o nível de confiança com que podemos afirmar que o efeito não é nulo.
+Quanto ao <span class="math inline">\(R^2\)</span>, ao utilizar apenas uma variável é normal que o valor não seja extremamente alto. De qualquer maneira, na prática, 0.56 é um valor bastante razoável.</p>
+</div>
+<div id="qualidade-do-ajuste" class="section level3">
+<h3><span class="header-section-number">3.3.4</span> Qualidade do Ajuste</h3>
+<p>Visualização da reta obtida</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="regressão-linear-simples-no-r.html#cb40-1"></a><span class="kw">ggplot</span>(dados, <span class="kw">aes</span>(<span class="dt">x=</span>idade, <span class="dt">y=</span> tempo))<span class="op">+</span></span>
+<span id="cb40-2"><a href="regressão-linear-simples-no-r.html#cb40-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb40-3"><a href="regressão-linear-simples-no-r.html#cb40-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>x,  <span class="dt">se=</span><span class="ot">TRUE</span>)<span class="op">+</span></span>
+<span id="cb40-4"><a href="regressão-linear-simples-no-r.html#cb40-4"></a><span class="st">  </span><span class="kw">theme_classic</span>()</span></code></pre></div>
+<p><img src="regressao_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>A reta estimada claramente não coincidirá com todos os nossos dados. As medidas de distância entre os dados observados e a reta estimada são chamadas resíduos. Os resíduos são utilizados para avaliar o ajuste do modelo, e a qualidade das estimativas feitas a partir dele.</p>
+</div>
+<div id="pressupostos-do-modelo" class="section level3">
+<h3><span class="header-section-number">3.3.5</span> Pressupostos do Modelo</h3>
+<p>Assim como qualquer método estatístico, a Regressão Linear, para ser corretamente utilizada, precisa que os dados estejam de acordo com algumas condições assumidas pelo modelo:</p>
+<ul>
+<li><p>Normalidade dos Resíduos - É necessário que os resíduos gerados pelo ajuste da reta sigam distribuição Normal.</p></li>
+<li><p>Homocedasticidade - É necessário que a variância de Y seja constante para todos os valores de X</p></li>
+<li><p>Independência -É necessário que não exista estrutura de dependência entre os dados, para que os resíduos sejam independentes e identicamente distribuídos.</p></li>
+</ul>
+<p>É possível avaliar se as suposições acima estão sendo cumpridas através da Análise de Resíduos , que pode ser feita graficamente através dos comandos:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="regressão-linear-simples-no-r.html#cb41-1"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb41-2"><a href="regressão-linear-simples-no-r.html#cb41-2"></a><span class="kw">plot</span>(modelo, <span class="dt">which=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">pch =</span> <span class="dv">20</span>)</span></code></pre></div>
+<p><img src="regressao_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>No primeiro gráfico, temos os resíduos em função dos valores estimados. Podemos utilizar este gráfico para observar a independência e a homocedasticidade, se os resíduos se distribuem de maneira razoavelmente aleatória e com mesma amplitude em torno do zero.</p>
+<p>No segundo gráfico, podemos avaliar a normalidade dos resíduos. A linha diagonal pontilhada representa a distribuição normal teórica, e os pontos a distribuição dos resíduos observada. Espera-se que não exista grande fuga dos pontos em relação à reta teórica.</p>
+<p>O terceiro gráfico pode ser avaliado da mesma maneira que o primeiro, observando a aleatoriedade e amplitude, desta vez dos resíduos padronizados. E o último gráfico permite visualizar as <strong>Distâncias de Cook</strong> das observações, uma medida de influência que pode indicar a presença de outliers quando possui valor maior do que 1.</p>
+<p>Quando a análise gráfica apresenta dúvidas, é possível também realizar testes estatísticos sobre os resíduos obtidos.</p>
+</div>
+<div id="teste-de-bartlett" class="section level3">
+<h3><span class="header-section-number">3.3.6</span> Teste de Bartlett</h3>
+<p>O Teste de Bartlett para Homogeneidade de Variâncias pode ser utilizado quando existe mais de uma observação para cada valor de X, e retorna uma estatística de teste K e um p-valor associado. Quando menor que 0.05 podemos rejeitar a hipótese de homogeneidade de variâncias ao nível de 95% de confiança</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="regressão-linear-simples-no-r.html#cb42-1"></a><span class="kw">bartlett.test</span>(<span class="dt">data=</span>dados, tempo <span class="op">~</span>idade)</span></code></pre></div>
+<pre><code>## 
+## 	Bartlett test of homogeneity of variances
+## 
+## data:  tempo by idade
+## Bartlett&#39;s K-squared = 0.29867, df = 4, p-value = 0.9899</code></pre>
+<p>Neste caso, a hipótese não foi rejeitada, portanto é seguro assumir que os resíduos sejam homocedásticos.</p>
+</div>
+<div id="teste-de-shapiro-wilk" class="section level3">
+<h3><span class="header-section-number">3.3.7</span> Teste de Shapiro-Wilk</h3>
+<p>O Teste de Shapiro-Wilk para normalidade avalia a aderência dos resíduos à distribuição Normal. O p-valor se refere à hipótese de que os resíduos seguem de fato uma distribuição Normal, e essa hipótese é rejeitada, de modo geral, quando p é menor que 0.05</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="regressão-linear-simples-no-r.html#cb44-1"></a><span class="kw">shapiro.test</span>(modelo<span class="op">$</span>residuals)</span></code></pre></div>
+<pre><code>## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  modelo$residuals
+## W = 0.93762, p-value = 0.2161</code></pre>
+<p>Neste caso, a hipótese não foi rejeitada e é seguro assumir que os resíduos tenham distribuição normal.</p>
+</div>
+<div id="interpretação-do-modelo" class="section level3">
+<h3><span class="header-section-number">3.3.8</span> Interpretação do Modelo</h3>
+<p>Ajustado o modelo de forma satisfatória, agora podemos interpretá-lo.
+Como na prática não existe sentido em assumir valor zero para a idade, o parâmetro <span class="math inline">\(\beta_0\)</span> não é interpretado. Já o parâmetro associado à variável idade, assumiu valor 0.9. Este valor representa o acréscimo no valor da variável Tempo, a cada unidade de acréscimo na variável Idade. Portanto, ao envelhecer 1 ano, os indivíduos
+têm seu tempo de reação aumentado, em média, em 0.9 unidades. Ao envelhecer 2 anos, têm seu tempo de reação aumentado, em média, em 1.8 unidades, e assim por diante.</p>
+
+</div>
+</div>
+</div>
+<h3>Referências</h3>
+<div id="refs" class="references">
+<div id="ref-Bussab1988">
+<p>Bussab, Wilton de Oliveira, and Pedro Alberto Morettin. 1988. <em>Estatística Básica</em>. São Paulo: Saraiva.</p>
+</div>
+<div id="ref-Melo2013">
+<p>Melo, Marcio Pupin de, and Luiz Alexandre Peternelli. 2013. <em>Conhecendo o R: uma visão mais que estatística</em>. Viçosa, MG: UFV.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="função-lm.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exercícios.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["regressao.pdf", "regressao.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

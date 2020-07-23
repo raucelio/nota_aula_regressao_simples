@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 5 Regressão no R | Regressão Linear</title>
+  <meta name="description" content="Este trbalho tem como apresentar exemplos análises de regressão linea utilizando o R." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 5 Regressão no R | Regressão Linear" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Este trbalho tem como apresentar exemplos análises de regressão linea utilizando o R." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 5 Regressão no R | Regressão Linear" />
+  
+  <meta name="twitter:description" content="Este trbalho tem como apresentar exemplos análises de regressão linea utilizando o R." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="exercícios.html"/>
+<link rel="next" href="referências.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Regressão: notas de aula I</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Objetivo</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introdução</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#ajuste-do-modelo"><i class="fa fa-check"></i><b>1.1</b> Ajuste do modelo</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="intro.html"><a href="intro.html#peso-e-altura-de-mulheres"><i class="fa fa-check"></i><b>1.1.1</b> Peso e Altura de Mulheres</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#inferência-em-regressão-linear"><i class="fa fa-check"></i><b>1.2</b> Inferência em regressão linear</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#decomposião-da-soma-dos-quadrados-total"><i class="fa fa-check"></i><b>1.2.1</b> Decomposião da Soma dos Quadrados Total</a></li>
+<li class="chapter" data-level="1.2.2" data-path="intro.html"><a href="intro.html#teste-t-para-os-parâmetros"><i class="fa fa-check"></i><b>1.2.2</b> Teste t para os parâmetros</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="função-lm.html"><a href="função-lm.html"><i class="fa fa-check"></i><b>2</b> Função lm()</a></li>
+<li class="chapter" data-level="3" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html"><i class="fa fa-check"></i><b>3</b> Regressão Linear Simples no R</a><ul>
+<li class="chapter" data-level="3.1" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#exemplo-1"><i class="fa fa-check"></i><b>3.1</b> Exemplo 1</a></li>
+<li class="chapter" data-level="3.2" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#exemplo-2"><i class="fa fa-check"></i><b>3.2</b> Exemplo 2</a></li>
+<li class="chapter" data-level="3.3" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#exemplo-3"><i class="fa fa-check"></i><b>3.3</b> Exemplo 3</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#implementação-no-r"><i class="fa fa-check"></i><b>3.3.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="3.3.2" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#visualizaçao-dos-dados"><i class="fa fa-check"></i><b>3.3.2</b> Visualizaçao dos dados</a></li>
+<li class="chapter" data-level="3.3.3" data-path="intro.html"><a href="intro.html#ajuste-do-modelo"><i class="fa fa-check"></i><b>3.3.3</b> Ajuste do Modelo</a></li>
+<li class="chapter" data-level="3.3.4" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#qualidade-do-ajuste"><i class="fa fa-check"></i><b>3.3.4</b> Qualidade do Ajuste</a></li>
+<li class="chapter" data-level="3.3.5" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#pressupostos-do-modelo"><i class="fa fa-check"></i><b>3.3.5</b> Pressupostos do Modelo</a></li>
+<li class="chapter" data-level="3.3.6" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#teste-de-bartlett"><i class="fa fa-check"></i><b>3.3.6</b> Teste de Bartlett</a></li>
+<li class="chapter" data-level="3.3.7" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#teste-de-shapiro-wilk"><i class="fa fa-check"></i><b>3.3.7</b> Teste de Shapiro-Wilk</a></li>
+<li class="chapter" data-level="3.3.8" data-path="regressão-linear-simples-no-r.html"><a href="regressão-linear-simples-no-r.html#interpretação-do-modelo"><i class="fa fa-check"></i><b>3.3.8</b> Interpretação do Modelo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="exercícios.html"><a href="exercícios.html"><i class="fa fa-check"></i><b>4</b> Exercícios</a></li>
+<li class="chapter" data-level="5" data-path="regressão-no-r.html"><a href="regressão-no-r.html"><i class="fa fa-check"></i><b>5</b> Regressão no R</a><ul>
+<li class="chapter" data-level="5.1" data-path="regressão-no-r.html"><a href="regressão-no-r.html#relatório-do-modelo"><i class="fa fa-check"></i><b>5.1</b> Relatório do modelo</a></li>
+<li class="chapter" data-level="5.2" data-path="regressão-no-r.html"><a href="regressão-no-r.html#significância-dos-coeficientes"><i class="fa fa-check"></i><b>5.2</b> Significância dos coeficientes</a></li>
+<li class="chapter" data-level="5.3" data-path="regressão-no-r.html"><a href="regressão-no-r.html#estística-t-e-p-valor"><i class="fa fa-check"></i><b>5.3</b> Estística t e p-valor:</a></li>
+<li class="chapter" data-level="5.4" data-path="regressão-no-r.html"><a href="regressão-no-r.html#intervalos-de-confiança"><i class="fa fa-check"></i><b>5.4</b> Intervalos de confiança</a></li>
+<li class="chapter" data-level="5.5" data-path="regressão-no-r.html"><a href="regressão-no-r.html#medidas-de-ajuste-do-modelo"><i class="fa fa-check"></i><b>5.5</b> Medidas de ajuste do modelo</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="regressão-no-r.html"><a href="regressão-no-r.html#residual-standard-error-rse."><i class="fa fa-check"></i><b>5.5.1</b> Residual standard error (RSE).</a></li>
+<li class="chapter" data-level="5.5.2" data-path="regressão-no-r.html"><a href="regressão-no-r.html#r2-e-r2-ajustado"><i class="fa fa-check"></i><b>5.5.2</b> R<sup>2</sup> e R<sup>2</sup> ajustado</a></li>
+<li class="chapter" data-level="5.5.3" data-path="regressão-no-r.html"><a href="regressão-no-r.html#f-statistic"><i class="fa fa-check"></i><b>5.5.3</b> F-Statistic:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="regressão-no-r.html"><a href="regressão-no-r.html#resumo"><i class="fa fa-check"></i><b>5.6</b> Resumo</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referências.html"><a href="referências.html"><i class="fa fa-check"></i>Referências</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regressão Linear</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="regressão-no-r" class="section level1">
+<h1><span class="header-section-number">Capítulo 5</span> Regressão no R</h1>
+<p>No R é muito comum utilizar o comando <code>lm()</code> em trabalhos relacionados a análise de regressão simples ou múltipla. Esse comando produz vários resultados que podem ser utilizados nesse tipo de análise.</p>
+<p>O comando <code>lm()</code> associado ao comando <code>summary ()</code> apresenta um relatório útil com resultados importantes que devem ser considerados pelo analista.</p>
+<div id="relatório-do-modelo" class="section level2">
+<h2><span class="header-section-number">5.1</span> Relatório do modelo</h2>
+<p>Acredita-se que a presença de uma substância na alimentação de bovinos melhora o ganho de peso desses animais. Para verificar essa hipótese, foram escolhidos 15 bois de mesma raça e idade, e cada um recebeu uma determinada concentração da substância <strong>X</strong> (mg/l). O ganho de peso após 30 dias, <strong>Y</strong> (kg), e a concetração atribuída foram as seguintes:</p>
+<table>
+<thead>
+<tr class="header">
+<th>X (concentração - mg/l)</th>
+<th>Y (ganho de peso - Kg)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0,2</td>
+<td>9,4</td>
+</tr>
+<tr class="even">
+<td>0,5</td>
+<td>11,4</td>
+</tr>
+<tr class="odd">
+<td>0,6</td>
+<td>12,3</td>
+</tr>
+<tr class="even">
+<td>0,7</td>
+<td>10,2</td>
+</tr>
+<tr class="odd">
+<td>1,0</td>
+<td>11,9</td>
+</tr>
+<tr class="even">
+<td>1,5</td>
+<td>13,6</td>
+</tr>
+<tr class="odd">
+<td>2,0</td>
+<td>14,2</td>
+</tr>
+<tr class="even">
+<td>2,5</td>
+<td>16,2</td>
+</tr>
+<tr class="odd">
+<td>3,0</td>
+<td>16,2</td>
+</tr>
+<tr class="even">
+<td>3,5</td>
+<td>17,7</td>
+</tr>
+<tr class="odd">
+<td>4,0</td>
+<td>18,8</td>
+</tr>
+<tr class="even">
+<td>4,5</td>
+<td>19,9</td>
+</tr>
+<tr class="odd">
+<td>5,0</td>
+<td>22,5</td>
+</tr>
+<tr class="even">
+<td>5,5</td>
+<td>24,7</td>
+</tr>
+<tr class="odd">
+<td>6,0</td>
+<td>23,1</td>
+</tr>
+</tbody>
+</table>
+<p>Essas informações serão organizadas em um data frame chamado de <strong>dados</strong>, a partir desse data frame será calculada a correlação entre as varíaveis <strong>X</strong> e <strong>Y</strong> e gerá um gráfico de dispersão afim de observar o comportamento destes dados.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="regressão-no-r.html#cb47-1"></a>dados &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb47-2"><a href="regressão-no-r.html#cb47-2"></a>         <span class="dt">X =</span> <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">1.0</span>,</span>
+<span id="cb47-3"><a href="regressão-no-r.html#cb47-3"></a>               <span class="fl">1.5</span>, <span class="fl">2.0</span>, <span class="fl">2.5</span>, <span class="fl">3.0</span>, <span class="fl">3.5</span>,</span>
+<span id="cb47-4"><a href="regressão-no-r.html#cb47-4"></a>               <span class="fl">4.0</span>, <span class="fl">4.5</span>, <span class="fl">5.0</span>, <span class="fl">5.5</span>, <span class="fl">6.0</span>),</span>
+<span id="cb47-5"><a href="regressão-no-r.html#cb47-5"></a>         <span class="dt">Y =</span> <span class="kw">c</span>( <span class="fl">9.4</span>, <span class="fl">11.4</span>, <span class="fl">12.3</span>, <span class="fl">10.2</span>, <span class="fl">11.9</span>,</span>
+<span id="cb47-6"><a href="regressão-no-r.html#cb47-6"></a>               <span class="fl">13.6</span>, <span class="fl">14.2</span>, <span class="fl">16.2</span>, <span class="fl">16.2</span>, <span class="fl">17.7</span>,</span>
+<span id="cb47-7"><a href="regressão-no-r.html#cb47-7"></a>               <span class="fl">18.8</span>, <span class="fl">19.9</span>, <span class="fl">22.5</span>, <span class="fl">24.7</span>, <span class="fl">23.1</span>)</span>
+<span id="cb47-8"><a href="regressão-no-r.html#cb47-8"></a>          )</span>
+<span id="cb47-9"><a href="regressão-no-r.html#cb47-9"></a></span>
+<span id="cb47-10"><a href="regressão-no-r.html#cb47-10"></a>correlacao &lt;-<span class="st"> </span><span class="kw">cor</span> (dados<span class="op">$</span>X, dados<span class="op">$</span>Y)</span>
+<span id="cb47-11"><a href="regressão-no-r.html#cb47-11"></a></span>
+<span id="cb47-12"><a href="regressão-no-r.html#cb47-12"></a><span class="kw">library</span>(ggplot2, <span class="dt">warn.conflicts =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb47-13"><a href="regressão-no-r.html#cb47-13"></a></span>
+<span id="cb47-14"><a href="regressão-no-r.html#cb47-14"></a><span class="kw">ggplot</span>(dados, <span class="kw">aes</span>(<span class="dt">x=</span>X, <span class="dt">y=</span>Y)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb47-15"><a href="regressão-no-r.html#cb47-15"></a><span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb47-16"><a href="regressão-no-r.html#cb47-16"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Concentração (mg/l)&quot;</span>,</span>
+<span id="cb47-17"><a href="regressão-no-r.html#cb47-17"></a>       <span class="dt">y=</span><span class="st">&quot;Ganho de peso (kg)&quot;</span>)<span class="op">+</span></span>
+<span id="cb47-18"><a href="regressão-no-r.html#cb47-18"></a><span class="st">  </span><span class="kw">theme_classic</span>()</span></code></pre></div>
+<p><img src="regressao_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>A correlação 0.98 e o gráfico de dispersão indicam que um modelo linear é uma boa opção. Agora:</p>
+<ul>
+<li><p>Ajustaremos o modelo <span class="math inline">\(Y = \beta_o + \beta_1 X\)</span> por meio da função <code>lm()</code>.</p></li>
+<li><p>Faremos um gráfico de dispersão com os dados observados e a reta predita pelo modelo.</p></li>
+<li><p>Apresentaremos o relatório gerado pelo comando <code>summary()</code>.</p></li>
+</ul>
+<p>O ajuste do modelo será atribuído ao objeto <strong>modelo</strong>, que contém os valores preditos pelo modelo no componente <code>fitted.values</code>.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="regressão-no-r.html#cb48-1"></a>modelo &lt;-<span class="st"> </span><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, dados)</span>
+<span id="cb48-2"><a href="regressão-no-r.html#cb48-2"></a></span>
+<span id="cb48-3"><a href="regressão-no-r.html#cb48-3"></a></span>
+<span id="cb48-4"><a href="regressão-no-r.html#cb48-4"></a>result &lt;-<span class="st"> </span><span class="kw">data.frame</span> (dados, <span class="dt">predito =</span> modelo<span class="op">$</span>fitted.values)</span>
+<span id="cb48-5"><a href="regressão-no-r.html#cb48-5"></a></span>
+<span id="cb48-6"><a href="regressão-no-r.html#cb48-6"></a><span class="kw">ggplot</span>(result) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb48-7"><a href="regressão-no-r.html#cb48-7"></a><span class="st">  </span><span class="kw">geom_line</span>( <span class="kw">aes</span>(<span class="dt">x=</span>X, <span class="dt">y=</span>predito))<span class="op">+</span></span>
+<span id="cb48-8"><a href="regressão-no-r.html#cb48-8"></a><span class="st">  </span><span class="kw">geom_point</span>( <span class="kw">aes</span>(<span class="dt">x=</span>X, <span class="dt">y=</span>Y))<span class="op">+</span></span>
+<span id="cb48-9"><a href="regressão-no-r.html#cb48-9"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Concentração (mg/l)&quot;</span>,</span>
+<span id="cb48-10"><a href="regressão-no-r.html#cb48-10"></a>       <span class="dt">y=</span><span class="st">&quot;Ganho de peso (kg)&quot;</span>)<span class="op">+</span></span>
+<span id="cb48-11"><a href="regressão-no-r.html#cb48-11"></a><span class="st">  </span><span class="kw">theme_classic</span>()</span></code></pre></div>
+<p><img src="regressao_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>Graficamente, a reta proposta se ajusta bem aos dados. O relatório a seguir nos dará informações para uma melhor avaliação do modelo. Esse relatório é gerado pelo comando R <code>summary()</code>:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="regressão-no-r.html#cb49-1"></a><span class="kw">summary</span>(modelo)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ X, data = dados)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.0934 -0.6359 -0.2317  0.5885  1.7268 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   9.5509     0.3956   24.14 3.49e-12 ***
+## X             2.4404     0.1199   20.36 3.03e-11 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.8812 on 13 degrees of freedom
+## Multiple R-squared:  0.9696,	Adjusted R-squared:  0.9673 
+## F-statistic: 414.5 on 1 and 13 DF,  p-value: 3.034e-11</code></pre>
+<p>O <code>summary(modelo)</code> apresenta 7 resultados:</p>
+<ul>
+<li><p><strong>Call</strong>. A presenta a chamada da função usada para construir o modelo de regressão.</p></li>
+<li><p><strong>Residuals</strong>. O relatório descreve de maneira sucinta a distribuiçãos dos resíduos, que deve ter <strong>média</strong> e <strong>mediana* proximas de zero e o
+</strong>valor máximo** e o <strong>valor mínimo</strong> aproximadamente iguais em valor absoluto. Pois, por definição, a distribuição dos resíduos tem distribuição normal com média zero.</p></li>
+<li><p><strong>Coefficients</strong>. Apresenta os coeficientes do modelo e a sua significância estatística. O intercepto e as variáveis independentes que estão significativamente associada com a variável dependente são assinaladas com asterscos.</p></li>
+<li><p><strong>Residual standard error (RSE)</strong>.</p></li>
+<li><p><strong>R-squared (R2)</strong>.</p></li>
+<li><p><strong>Adjusted R-squared</strong></p></li>
+<li><p><strong>F-statistic</strong> are metrics that are used to check how well the model fits to our data.</p></li>
+</ul>
+</div>
+<div id="significância-dos-coeficientes" class="section level2">
+<h2><span class="header-section-number">5.2</span> Significância dos coeficientes</h2>
+<p>A tabela dos coeficeintes do relatório associado ao modelo estatístico é composta por:</p>
+<ul>
+<li><p>estimativa dos coeficientes do modelo</p></li>
+<li><p><strong>standard errors (SE)</strong> que são medidas de precisão (acuracia) dos coeficientes. O <strong>SE</strong> representa a variabilidade de um dado coeficiente quando obtido de varias amostras. Também pode ser usado para obter intervalos de confiança e a estatística teste t.</p></li>
+<li><p>**estistica teste t* e o <em>p-valor</em> associados, que decide a significância do coeficiente.</p></li>
+</ul>
+<pre><code>Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   9.5509     0.3956   24.14 3.49e-12 ***
+X             2.4404     0.1199   20.36 3.03e-11 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+</div>
+<div id="estística-t-e-p-valor" class="section level2">
+<h2><span class="header-section-number">5.3</span> Estística t e p-valor:</h2>
+<p>Para uma variável dependente, a estatística <strong>t</strong> e o seu <strong>p-valor</strong> associado testa se a relação entre a variável independente e a dependentes é <strong>significante</strong>, isto é, se o coeficeinte da variável dependente é <strong>significativamente</strong> diferente de zero.</p>
+<p>As hipóteses testadas são:</p>
+<ul>
+<li>Hipótese nula (H<sub>0</sub>) : O coeficeinte é igual a zero.</li>
+<li>Hipotese alternativa (H<sub>a</sub>): o coeficiente é diferente de zero.</li>
+</ul>
+<p>Para um coeficiente $ $, o teste <strong>t</strong> calcula a estatistica teste:</p>
+<p><span class="math display">\[
+t = \dfrac{\beta -0 }{SE(\beta)},
+\]</span></p>
+<p>onde SE( <span class="math inline">\(\beta\)</span> ) é o erro padrão de <span class="math inline">\(\beta\)</span>. A testatística teste <span class="math inline">\(t\)</span> mede a quantidade de desvios padrões que há entre <span class="math inline">\(\beta\)</span> e zero. Grandes valores da estatística <span class="math inline">\(t\)</span> geram pequenos valores para o <strong>p-valor</strong>.</p>
+<p>Altos valores da estatistica <strong>t</strong>, que são associados a baixos valores de <strong>p-valor</strong>, indicam que a variável dependente analisada é mais <strong>significante</strong>.</p>
+<p>A legenda abaixo da tabela dos significantes é usada para indicar o nível de significância <span class="math inline">\(\alpha\)</span> para se rejeita a hipótese nula: um asterisco indica que se rejeita <span class="math inline">\(H_0\)</span> para <span class="math inline">\(0.01 &lt; \alpha &lt;= 0.05\)</span>. Quanto mais asterisco, após o <span class="math inline">\(p-valor\)</span>, a variável independente é mais significante.</p>
+<p>Um coeficiente estatísticamente significante de uma variável dependnete indica que há uma relação entre essa variável e a variável independente.</p>
+<p>No exemplo analisado, os <strong>p-valor</strong> associado tanto ao <strong>intercepto</strong> quanto a variável <strong>X</strong>, são altamente significantes, que indica para a rejeição de <span class="math inline">\(H_0\)</span> e favor de <span class="math inline">\(H_a\)</span>, que siginifica que o <strong>intercepto</strong> e a variável <strong>X</strong> influênciam na vairável dependente <span class="math inline">\(Y\)</span>.</p>
+<p>Para uma dada variável independente, o teste t podem também ser útil como critério de permanência, ou não, dessa variável no modelo. Altos valores da estatistica t, sempre associado a baixos valores do <strong>p-valor</strong>, indicam que a variável deve ser mantida no modelo, equanto baixo valores da estatistica t, sempre associado a altos valores do <strong>p-valor</strong>, conduzem para a retirada do modelo.</p>
+</div>
+<div id="intervalos-de-confiança" class="section level2">
+<h2><span class="header-section-number">5.4</span> Intervalos de confiança</h2>
+<p>O erro padrão mede a variabilidade dos coeficientes. Ele é usado para calcular os intervalos de confiança desses coeficientes.</p>
+<p>Por exemplo o intervalo de confiança, com nível de confiança de 95%, para um certo coeficiente <span class="math inline">\(\beta\)</span> é definido por<br />
+<span class="math display">\[
+\beta +/- 2*SE(beta),
+\]</span>
+onde,</p>
+<ul>
+<li><p>o limite inferior é b1 = b1 - 2<em>SE(b1) = 0.047 - 2</em>0.00269 = 0.042</p></li>
+<li><p>o limite superior é b1 = b1 + 2<em>SE(b1) = 0.047 + 2</em>0.00269 = 0.052</p></li>
+</ul>
+<p>Assim, há uma probabilidade de 95% do intervalo [0.042, 0.052] conter o verdadeiro valor de b1. Similarmente um intervalo de comfianca de 95% pode ser construído para b0.</p>
+<p>Estes inntervalos são calculados pelo comando <code>confint()</code>:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="regressão-no-r.html#cb52-1"></a><span class="kw">confint</span>(modelo)</span></code></pre></div>
+<pre><code>##                2.5 %    97.5 %
+## (Intercept) 8.696207 10.405554
+## X           2.181454  2.699375</code></pre>
+</div>
+<div id="medidas-de-ajuste-do-modelo" class="section level2">
+<h2><span class="header-section-number">5.5</span> Medidas de ajuste do modelo</h2>
+<p>Uma vez identificado, ao menos, uma variável dependente significante associada a variável independente. O diagnóstico do modelo para checar o ajusto do modelo aos dados. Este processamento é também conhecido por <strong>goodness-of-fi</strong>.</p>
+<p>A qualidade geral do modelo de regressão linear ajustado pode ser verificada por três quantidades, são apresentados no relatório gerado para o modelo:</p>
+<ul>
+<li>Residual Standard Error (RSE).</li>
+<li>R-squared (R<sup>2</sup>) and Adjusted R2 (R<sup>2</sup> ajustado)</li>
+<li>F-statistic</li>
+</ul>
+<pre><code>Residual standard error: 0.8812 on 13 degrees of freedom
+Multiple R-squared:  0.9696,	Adjusted R-squared:  0.9673 
+F-statistic: 414.5 on 1 and 13 DF,  p-value: 3.034e-11</code></pre>
+<div id="residual-standard-error-rse." class="section level3">
+<h3><span class="header-section-number">5.5.1</span> Residual standard error (RSE).</h3>
+<p>O RSE é uma indicação da variabilidade dos resíduos, é o desvio médio dos pontos observados em torno da linha de regressão ajustada. Este é o desvio padrão de erros..</p>
+<p>O RSE fornece uma medida dos dados que não podem ser explicados pelo modelo. Ao comparar dois modelos, o modelo com o RSE menor é uma boa indicação de que esse modelo se ajusta melhor aos dados.</p>
+<p>Dividir o RSE pelo valor médio da variável dependente fornecerá a taxa de erro de previsão, que deve ser a menor possível.</p>
+<p>No nosso exemplo, RSE = 0,8812, significando que os ganhos de peso observados divergem da linha de regressão verdadeira em aproximadamente 0.8812 unidades em média.</p>
+<p>Se um RSE de 0,8812 unidades é ou não um erro de previsão aceitável é subjetivo e depende do contexto do problema. No entanto, podemos calcular o erro percentual. Em nosso conjunto de dados, o valor médio de ganho de peso é 16,1400 e, portanto, o erro percentual é de 0,8812/ 16,1400 = 5.4596 %.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="regressão-no-r.html#cb55-1"></a><span class="kw">mean</span>(dados<span class="op">$</span>Y)</span></code></pre></div>
+<pre><code>## [1] 16.14</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="regressão-no-r.html#cb57-1"></a><span class="kw">sigma</span>(modelo)<span class="op">/</span><span class="kw">mean</span>(dados<span class="op">$</span>Y)<span class="op">*</span><span class="dv">100</span></span></code></pre></div>
+<pre><code>## [1] 5.459581</code></pre>
+</div>
+<div id="r2-e-r2-ajustado" class="section level3">
+<h3><span class="header-section-number">5.5.2</span> R<sup>2</sup> e R<sup>2</sup> ajustado</h3>
+<p>O R-squared (R<sup>2</sup>) assume valor entre 0 e 1 e informa a proporção da informação (variância) nos dados que o modelo consegue explicar.</p>
+<p>O R<sup>2</sup> mede o ajuste do modelo aos dados. Em uma regressão linear simples, o R<sup>2</sup> é o coeficiente de correlação de Pearson ao quadrado.</p>
+<p>Um alto valor do R<sup>2</sup> é um bom indicativo. Entretanto, o valor do R<sup>2</sup> tende a aumentar com o aumento do número de variáveis independentes no modelo. Assim, em uma regressão linera múltipla, deve-se considera o valor do R<sup>2</sup> ajustado, que penaliza o R<sup>2</sup> para um grande número de variáveis independentes.</p>
+<p>Um R<sup>2</sup> ajustado próximo de 1 indica que uma grande poroporção da variabilidade da variável resposta é explicada pelo modelo. Um valor próximo de 0 indica que o modelo de regressão não explica variabiliadade da variável dependente.</p>
+</div>
+<div id="f-statistic" class="section level3">
+<h3><span class="header-section-number">5.5.3</span> F-Statistic:</h3>
+<p>O teste F é um teste de signifiância geral, e indica se ao menos uma variável independente tem o seu coeficiente diferente de zero.</p>
+<p>Em uma regressão linear simples, este teste não tem um real interesse, pois apenas replica a informação dada pelo teste t apresentado no relatório do modelo. De fato, a estatistica F é o quadrado da estatística t. No exemplo, 414.5 = 20.36<sup>2</sup>. Isso é verdade para qualquer modelo com 1 grau de liberdade.</p>
+<p>A estatística F tem maior importância quando há varias variáveis independentes, como na regressão linear múltipla.</p>
+<p>Uma estatística F com valor alto corresponde a um <strong>p-valor</strong> estatisticamente significante (p &lt; 0.05). Em nosso exemplo, a estatística F é igual a 414.5 e produz um p-valor de 3.034e-11, que é muito significante.</p>
+</div>
+</div>
+<div id="resumo" class="section level2">
+<h2><span class="header-section-number">5.6</span> Resumo</h2>
+<ul>
+<li><p>Ajustar o modelo de regressão.</p></li>
+<li><p>Verificar se há, ao menos, uma variável independente está significativamente associada a variável dependente.</p></li>
+<li><p>Se uma oum mais variáveis dependentes são significativas, verificar a qualidedade do ajuste do modelo pela análise dos valores do <strong>RSE</strong>, do R<sup>2</sup> e da Estatistica F.</p></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="exercícios.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referências.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["regressao.pdf", "regressao.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
